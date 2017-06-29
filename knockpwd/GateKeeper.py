@@ -1,5 +1,7 @@
 import socket
+import sys
 import logging
+import traceback
 from threading import Event
 
 class GateKeeper:
@@ -18,18 +20,19 @@ class GateKeeper:
 
     def run(self, stop_event=Event()):
         try:
+            logging.info("binding to {}".format(self.bind_address_port_pair)) 
             self.socket.bind(self.bind_address_port_pair)
             self.socket.settimeout(0.1)
             while not stop_event.is_set():
-                logging.debug("recvfrom")
+                logging.debug("waiting for data")
                 data, addr = self.recvfrom_with_timeout()
                 if data is not None:
                     logging.debug("handling knock")
                     self.message_handler.handle(data, addr)
                 else:
                     logging.debug("no/invalid knock")
-        except OSError as e:
-            logging.error("", e, e.args)
+        except OSError:
+            logging.error(*sys.exc_info())
         finally:
-            logging.info(" exiting")
+            logging.info("exiting")
             self.socket.close()
