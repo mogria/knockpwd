@@ -1,0 +1,10 @@
+# python
+*.pyc
+__pycache__
+
+# vim
+*.sw*
+*~
+
+# generated log files
+*.log
