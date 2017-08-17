@@ -1,6 +1,6 @@
 import unittest
 from tests.GateKeeperTest import GateKeeperTest
-from tests.CryptoTest import CryptoTest
+from tests.TestCrypto import TestCrypto
 
 import logging
 log_format_console = "%(levelname)s: %(message)s"

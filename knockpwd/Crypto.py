@@ -7,9 +7,6 @@ class Crypto:
     DIGEST_SIZE = int(512 / 8)
     BLOCK_SIZE = 16
 
-    def __init__():
-        pass
-
     @staticmethod
     def extract_iv(encrypted):
         return encrypted[0:Crypto.BLOCK_SIZE]
@@ -30,8 +27,7 @@ class Crypto:
     @staticmethod
     def unpad(msg):
         last_byte = msg[len(msg) - 1]
-        n_padding_added = ord()
-        return msg[:-n_padding_added]
+        return msg[:-last_byte]
 
     @staticmethod
     def encrypt(msg, key, iv=None):
