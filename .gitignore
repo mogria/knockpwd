@@ -8,3 +8,6 @@ __pycache__
 
 # generated log files
 *.log
+
+# generated file for test coverage
+.coverage
