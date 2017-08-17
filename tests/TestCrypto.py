@@ -84,4 +84,9 @@ class TestCrypto:
         assert_equal(bytes, enc2.__class__)
         assert_not_equal(enc1, enc2)
 
+    def test_decrypt(self):
+        result = Crypto.decrypt(Crypto.encrypt(self.message, self.key), self.key)
+        assert_equal(result, self.message)
 
+    def test_decrypt_wrong_key(self):
+        assert_equal(None, Crypto.decrypt(Crypto.encrypt(self.message, self.key), self.wrong_key))

@@ -41,12 +41,12 @@ class Crypto:
     @staticmethod
     def decrypt(encrypted, key):
         iv = Crypto.extract_iv(encrypted)
+        crypted = Crypto.extract_crypted(encrypted)
         signature = Crypto.extract_signature(encrypted)
-        if not verify(msg, signature):
+        if not Crypto.verify(iv + crypted, key, signature):
             return None
 
         aes = AES.new(key, AES.MODE_CBC, iv)
-        crypted = Crypto.extract_crypted(encrypted)
         return Crypto.unpad(aes.decrypt(crypted))
 
     @staticmethod
