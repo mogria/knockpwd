@@ -1,16 +1,29 @@
+""" The implementation of the knockpwd server.
+This module is responsible for creating the UDP
+socket to receive knock requests from.
+"""
 import socket
 import sys
 import logging
-import traceback
 from threading import Event
 
 class GateKeeper:
+    """ The knockpwd server. Handles incoming data over
+    UDP and passes them to the MessageHandler to process them.
+    """
     def __init__(self, message_handler, socket_type, bind_address_port_pair):
+        """ Create an instance of the knockpwd GateKeeper.
+        Provide a MessageHandler the type of socket to use
+        and the bind address / port as a tuple."""
         self.message_handler = message_handler
         self.socket = socket.socket(socket_type, socket.SOCK_DGRAM)
         self.bind_address_port_pair = bind_address_port_pair
-    
+
     def recvfrom_with_timeout(self):
+        """ Waits for data on the UDP port for one second
+        and returns a tuple of the data and the client
+        address.  Both are None if no data has been
+        received."""
         try:
             data, addr = self.socket.recvfrom(1)
             return (data, addr)
@@ -19,8 +32,11 @@ class GateKeeper:
             return (None, None)
 
     def run(self, stop_event=Event()):
+        """ Run the UDP-Server as long as the stop event
+        isn't signaled. This will process all the
+        knock requests."""
         try:
-            logging.info("binding to {}".format(self.bind_address_port_pair)) 
+            logging.info("binding to %s:%i", *self.bind_address_port_pair)
             self.socket.bind(self.bind_address_port_pair)
             self.socket.settimeout(0.1)
             while not stop_event.is_set():
