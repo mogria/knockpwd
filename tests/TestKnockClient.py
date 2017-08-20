@@ -2,9 +2,9 @@ import time
 import struct
 import socket
 
-from knockpwd.KnockClient import KnockClient
-from knockpwd.KnockRequest import KnockRequest
-from knockpwd.Crypto import Crypto
+from knockpw.KnockClient import KnockClient
+from libknockpw.KnockRequest import KnockRequest
+from libknockpw.Crypto import Crypto
 from nose.tools import assert_equals, assert_is_not_none
 
 class TestKnockClient:

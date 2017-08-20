@@ -1,4 +1,4 @@
-from knockpwd.Crypto import Crypto
+from libknockpw.Crypto import Crypto
 from Crypto import Random
 from nose.tools import *
 

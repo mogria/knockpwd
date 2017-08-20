@@ -1,6 +1,6 @@
 import socket
-from knockpwd.Crypto import Crypto
-from knockpwd.KnockRequest import KnockRequest
+from libknockpw.Crypto import Crypto
+from libknockpw.KnockRequest import KnockRequest
 
 class KnockClient:
     """A simple Client which is able to send KnockRequests

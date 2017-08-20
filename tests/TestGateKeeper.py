@@ -2,19 +2,18 @@ import logging
 import socket
 import time
 from threading import Thread, Event
-import unittest
-from unittest.mock import Mock
+from nose.tools import assert_equal, assert_false
 
+from knockpwd.GateKeeper import GateKeeper
+from knockpwd.KnockRequestHandler import KnockRequestHandler
 
-import knockpwd
-
-class GateKeeperTest(unittest.TestCase):
+class TestGateKeeper:
 
     def setUp(self):
         self.socket_type = socket.AF_INET
         self.bind_address_port_pair = ("127.0.0.1", 46589)
-        self.knock_request_handler = Mock(spec_set=knockpwd.KnockRequestHandler.KnockRequestHandler)
-        self.gate_keeper = knockpwd.GateKeeper.GateKeeper(self.knock_request_handler, self.socket_type, self.bind_address_port_pair)
+        self.knock_request_handler = Mock(spec_set=KnockRequestHandler)
+        self.gate_keeper = GateKeeper(self.knock_request_handler, self.socket_type, self.bind_address_port_pair)
         self.thread_stopper_event = Event()
         self.thread = None
 
@@ -48,7 +47,7 @@ class GateKeeperTest(unittest.TestCase):
             self.send_knock()
 
         time.sleep(0.1)
-        self.assertEqual(num_knocks, self.knock_request_handler.handle.call_count, 'Not all knocks were handled by the KnockRequestHandler')
+        assert_equal(num_knocks, self.knock_request_handler.handle.call_count, 'Not all knocks were handled by the KnockRequestHandler')
 
     """Check behavior when udp address/port is already in use."""
     def test_fail_to_bind(self):
@@ -66,4 +65,4 @@ class GateKeeperTest(unittest.TestCase):
         sock.close()
         logging.disable(logging.NOTSET)
 
-        self.assertFalse(self.thread.is_alive())
+        assert_false(self.thread.is_alive())

@@ -1,7 +1,7 @@
 import unittest
 import logging
 
-from tests.GateKeeperTest import GateKeeperTest
+from tests.TestGateKeeper import TestGateKeeper
 from tests.TestCrypto import TestCrypto
 from tests.TestKnockClient import TestKnockClient
 from tests.TestKnockRequestHandler import KnockRequestHandler

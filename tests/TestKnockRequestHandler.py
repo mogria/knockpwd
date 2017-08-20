@@ -1,6 +1,6 @@
 from knockpwd.KnockRequestHandler import KnockRequestHandler
-from knockpwd.KnockRequest import KnockRequest
-from knockpwd.Crypto import Crypto
+from libknockpw.KnockRequest import KnockRequest
+from libknockpw.Crypto import Crypto
 from nose.tools import assert_is_none, assert_true, assert_false, assert_raises
 
 class TestKnockRequestHandler:

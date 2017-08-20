@@ -1,5 +1,5 @@
-from knockpwd.Crypto import Crypto
-from knockpwd.KnockRequest import KnockRequest
+from libknockpw.Crypto import Crypto
+from libknockpw.KnockRequest import KnockRequest
 
 class KnockRequestHandler:
     TIME_TOLERANCE_SECONDS = 30 # half a minute
