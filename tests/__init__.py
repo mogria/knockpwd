@@ -3,6 +3,7 @@ import logging
 
 from tests.GateKeeperTest import GateKeeperTest
 from tests.TestCrypto import TestCrypto
+from tests.TestKnockRequestHandler import KnockRequestHandler
 
 def main():
     """Runs the unit test. The output is collected in unittest.log"""
