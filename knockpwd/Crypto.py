@@ -90,3 +90,8 @@ class Crypto:
         is correct. Returns True on success, False on failure. """
         return hmac.compare_digest(Crypto.sign(encrypted, key), expected_sig)
 
+    @staticmethod
+    def generate_key():
+        """ Generates a cryptographically random key of length Crypto.KEY_SIZE. """
+        return Random.new().read(Crypto.KEY_SIZE)
+

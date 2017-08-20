@@ -90,3 +90,8 @@ class TestCrypto:
 
     def test_decrypt_wrong_key(self):
         assert_equal(None, Crypto.decrypt(Crypto.encrypt(self.message, self.key), self.wrong_key))
+
+    def test_generate_key(self):
+        key = Crypto.generate_key()
+        assert_equals(Crypto.KEY_SIZE, len(key))
+        assert_is_instance(key, bytes)
