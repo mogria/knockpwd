@@ -9,13 +9,13 @@ from threading import Event
 
 class GateKeeper:
     """ The knockpwd server. Handles incoming data over
-    UDP and passes them to the MessageHandler to process them.
+    UDP and passes them to the KnockRequestHandler to process them.
     """
-    def __init__(self, message_handler, socket_type, bind_address_port_pair):
+    def __init__(self, knock_request_handler, socket_type, bind_address_port_pair):
         """ Create an instance of the knockpwd GateKeeper.
-        Provide a MessageHandler the type of socket to use
+        Provide a KnockRequestHandler the type of socket to use
         and the bind address / port as a tuple."""
-        self.message_handler = message_handler
+        self.knock_request_handler = knock_request_handler
         self.socket = socket.socket(socket_type, socket.SOCK_DGRAM)
         self.bind_address_port_pair = bind_address_port_pair
 
@@ -44,7 +44,7 @@ class GateKeeper:
                 data, addr = self.recvfrom_with_timeout()
                 if data is not None:
                     logging.debug("handling knock")
-                    self.message_handler.handle(data, addr)
+                    self.knock_request_handler.handle(data, addr)
                 else:
                     logging.debug("no/invalid knock")
         except OSError:

@@ -2,4 +2,4 @@
 the knockpwd port knocking server and client.
 """
 import knockpwd.GateKeeper
-import knockpwd.MessageHandler
+import knockpwd.KnockRequestHandler

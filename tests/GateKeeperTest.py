@@ -13,8 +13,8 @@ class GateKeeperTest(unittest.TestCase):
     def setUp(self):
         self.socket_type = socket.AF_INET
         self.bind_address_port_pair = ("127.0.0.1", 46589)
-        self.message_handler = Mock(spec_set=knockpwd.MessageHandler.MessageHandler)
-        self.gate_keeper = knockpwd.GateKeeper.GateKeeper(self.message_handler, self.socket_type, self.bind_address_port_pair)
+        self.knock_request_handler = Mock(spec_set=knockpwd.KnockRequestHandler.KnockRequestHandler)
+        self.gate_keeper = knockpwd.GateKeeper.GateKeeper(self.knock_request_handler, self.socket_type, self.bind_address_port_pair)
         self.thread_stopper_event = Event()
         self.thread = None
 
@@ -29,16 +29,15 @@ class GateKeeperTest(unittest.TestCase):
 
     """Helper method for sending an UDP knock."""
     def send_knock(self):
-        s = socket.socket(self.socket_type, socket.SOCK_DGRAM)
-        s.sendto(b"foo", self.bind_address_port_pair)
-        s.close()
+        with socket.socket(self.socket_type, socket.SOCK_DGRAM) as s:
+            s.sendto(b"foo", self.bind_address_port_pair)
 
     """Check if the server starts processing a knock at all."""
     def test_run(self):
         self.start_server()
         self.send_knock()
         time.sleep(0.1)
-        self.message_handler.handle.assert_called_once()
+        self.knock_request_handler.handle.assert_called_once()
 
     """Check if the server processes multiple knocks."""
     def test_run_twice(self):
@@ -49,7 +48,7 @@ class GateKeeperTest(unittest.TestCase):
             self.send_knock()
 
         time.sleep(0.1)
-        self.assertEqual(num_knocks, self.message_handler.handle.call_count, 'Not all knocks were handled by the MessageHandler')
+        self.assertEqual(num_knocks, self.knock_request_handler.handle.call_count, 'Not all knocks were handled by the KnockRequestHandler')
 
     """Check behavior when udp address/port is already in use."""
     def test_fail_to_bind(self):
